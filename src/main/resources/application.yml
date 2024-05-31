@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: user-management
+
+
+#  data:
+#    mongodb:
+#      username: admin
+#      password: 123
+#      host: mongodb
+#      database: user-management
+  datasource:
+    username: root
+    password: toor
+    url: jdbc:mysql://localhost:3307/user-management
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: email.sender.bykowski@gmail.com
+    password: lvmhvmrfruzohphx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
