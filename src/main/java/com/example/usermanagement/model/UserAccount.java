@@ -1,6 +1,5 @@
 package com.example.usermanagement.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +28,14 @@ public class UserAccount {
     @Embedded
     private UserDetails userDetails;
     private Instant createdAt;
+    @Builder.Default
     private Boolean activated = false;
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void enableAccount() {
+        activated = true;
+    }
 }

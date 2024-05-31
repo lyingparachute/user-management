@@ -7,6 +7,8 @@ import com.example.usermanagement.model.UserAccount;
 import com.example.usermanagement.model.UserAccountRepository;
 import com.example.usermanagement.model.UserDetails;
 import com.example.usermanagement.util.UserMapper;
+import com.example.usermanagement.verification.VerificationService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,35 +18,40 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class UserService {
     private final UserAccountRepository userAccountRepository;
+    private final VerificationService verificationService;
 
     public UserAccountResponse getUserAccount(final Long userId) {
         final var userAccount = findById(userId);
         return UserMapper.toResponse(userAccount);
     }
 
-    public UserAccountResponse createUserAccount(final UserAccountRequest userAccountRequest) {
-        validateUsername(userAccountRequest.username());
+    public UserAccountResponse createUserAccount(final UserAccountRequest request,
+                                                 final HttpServletRequest httpServletRequest) {
+        validateUsername(request.username());
         final var saved = userAccountRepository.save(
             UserAccount.builder()
                 .userDetails(UserDetails.builder()
-                    .username(userAccountRequest.username())
-                    .gender(userAccountRequest.gender())
-                    .age(userAccountRequest.age())
+                    .username(request.username())
+                    .email(request.email())
+                    .gender(request.gender())
+                    .age(request.age())
                     .build()
                 )
                 .createdAt(Instant.now())
                 .build()
         );
+        verificationService.sendAccountVerificationEmail(httpServletRequest, saved);
         return UserMapper.toResponse(saved);
     }
 
-    public UserAccountResponse updateUserAccount(final Long userId, final UserAccountRequest userAccountRequest) {
+    public UserAccountResponse updateUserAccount(final Long userId, final UserAccountRequest request) {
         final var userAccount = findById(userId);
         userAccount.setUserDetails(
             UserDetails.builder()
-                .username(userAccountRequest.username())
-                .gender(userAccountRequest.gender())
-                .age(userAccountRequest.age())
+                .username(request.username())
+                .email(request.email())
+                .gender(request.gender())
+                .age(request.age())
                 .build());
         final var savedUser = userAccountRepository.save(userAccount);
         return UserMapper.toResponse(savedUser);
@@ -58,5 +65,9 @@ public class UserService {
     private void validateUsername(final String username) {
         if (userAccountRepository.findByUsername(username).isPresent())
             throw new UsernameExistsException("Username already exists: " + username);
+    }
+
+    public void removeUserAccount(final Long id) {
+        userAccountRepository.deleteById(id);
     }
 }

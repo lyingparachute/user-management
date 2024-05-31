@@ -11,6 +11,7 @@ public class UserMapper {
         return UserAccountResponse.builder()
             .id(user.getId())
             .username(user.getUserDetails().username())
+            .email(user.getUserDetails().email())
             .gender(user.getUserDetails().gender())
             .age(user.getUserDetails().age())
             .createdAt(user.getCreatedAt())

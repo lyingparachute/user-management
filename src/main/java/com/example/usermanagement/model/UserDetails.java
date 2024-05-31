@@ -9,6 +9,7 @@ import lombok.Builder;
 public record UserDetails(
     @Column(unique = true)
     String username,
+    String email,
     Gender gender,
     int age
 ) {

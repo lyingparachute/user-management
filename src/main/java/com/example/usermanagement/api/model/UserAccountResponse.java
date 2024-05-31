@@ -9,6 +9,7 @@ import java.time.Instant;
 public record UserAccountResponse(
     Long id,
     String username,
+    String email,
     Gender gender,
     int age,
     Instant createdAt
