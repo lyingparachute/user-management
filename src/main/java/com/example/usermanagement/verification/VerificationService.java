@@ -1,7 +1,6 @@
 package com.example.usermanagement.verification;
 
 
-import com.example.usermanagement.api.model.UserAccountRequest;
 import com.example.usermanagement.mail_sender.MailSenderService;
 import com.example.usermanagement.model.UserAccount;
 import com.example.usermanagement.model.UserAccountRepository;
