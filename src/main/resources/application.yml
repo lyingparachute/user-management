@@ -15,6 +15,10 @@ spring:
     url: jdbc:mysql://localhost:3307/user-management
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -26,3 +30,8 @@ spring:
           auth: true
           starttls:
             enable: true
+
+#    properties:
+#      hibernate:
+#        hbm2ddl:
+#          import_files: import/roles_and_privileges.sql

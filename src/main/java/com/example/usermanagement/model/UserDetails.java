@@ -1,21 +1,15 @@
 package com.example.usermanagement.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Getter;
+import jakarta.persistence.Embeddable;
+import lombok.Builder;
 
-import java.time.Instant;
-import java.util.UUID;
-
-@Entity
-@Getter
-public class UserDetails {
-    @Id
-    private UUID id;
+@Embeddable
+@Builder
+public record UserDetails(
     @Column(unique = true)
-    private String username;
-    private Gender gender;
-    private int age;
-    private Instant createdAt;
+    String username,
+    Gender gender,
+    int age
+) {
 }

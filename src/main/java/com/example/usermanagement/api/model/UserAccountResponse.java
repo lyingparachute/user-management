@@ -5,7 +5,9 @@ import lombok.Builder;
 
 import java.time.Instant;
 
-public record UserDetailsResponse(
+@Builder
+public record UserAccountResponse(
+    Long id,
     String username,
     Gender gender,
     int age,

@@ -1,14 +1,10 @@
 package com.example.usermanagement.api.model;
 
 import com.example.usermanagement.model.Gender;
-import lombok.Builder;
 
-import java.time.Instant;
-
-public record UserDetailsRequest(
+public record UserAccountRequest(
     String username,
     Gender gender,
-    int age,
-    Instant createdAt
+    int age
 ) {
 }
