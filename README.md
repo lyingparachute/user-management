@@ -1,10 +1,28 @@
-# user-management
+# User Management
 
-Create docker image:
+## Running the Application
+### Clone the repository:
+
+
+```bash
+git clone https://github.com/lyingparachute/user-management.git
+cd user-management
+```
+
+
+### Create docker image:
 
 ```bash
 docker run -p 3307:3306 --name mysql -e MYSQL_ROOT_PASSWORD=toor -e MYSQL_DATABASE=user-management --rm -d mysql
 ```
+
+### Build and run the application:
+
+```bash
+./mvnw spring-boot:run
+```
+
+The application should now be running at http://localhost:8080.
 
 
 ## Endpoints
@@ -58,9 +76,11 @@ Update the details of an existing user.
 - **URL:** `/user-details/{id}`
 - **Method:** `PATCH`
 - **Path Variable:** `id` (Long) - The ID of the user to update.
+- **Request Body:** `UserAccountRequest`
 - **Response:**
     - `200 OK` with `UserAccountResponse` body if the user updated successfully.
     - `400 Bad Request` if the request body is invalid or user not found.
+    - `404 Not Found` if the user does not exist.
 
 **Example Request:**
 
