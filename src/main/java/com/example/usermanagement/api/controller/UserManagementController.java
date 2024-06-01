@@ -1,6 +1,6 @@
 package com.example.usermanagement.api.controller;
 
-import com.example.usermanagement.api.model.UserAccountRequest;
+import com.example.usermanagement.api.model.CreateUserAccountRequest;
 import com.example.usermanagement.api.model.UserAccountResponse;
 import com.example.usermanagement.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,18 +30,18 @@ public class UserManagementController {
     }
 
     @PostMapping
-    ResponseEntity<UserAccountResponse> createUserDetails(@RequestBody @Validated final UserAccountRequest userAccountRequest,
+    ResponseEntity<UserAccountResponse> createUserDetails(@RequestBody @Validated final CreateUserAccountRequest createUserAccountRequest,
                                                           final HttpServletRequest httpRequest) {
 
-        final var userAccount = userService.createUserAccount(userAccountRequest, httpRequest);
+        final var userAccount = userService.createUserAccount(createUserAccountRequest, httpRequest);
         return ResponseEntity.created(URI.create("/user-details/" + userAccount.id()))
             .body(userAccount);
     }
 
     @PatchMapping("{id}")
     ResponseEntity<UserAccountResponse> updateUserDetails(@PathVariable final Long id,
-                                                          @RequestBody @Validated final UserAccountRequest userAccountRequest) {
-        return ResponseEntity.ok(userService.updateUserAccount(id, userAccountRequest));
+                                                          @RequestBody @Validated final CreateUserAccountRequest createUserAccountRequest) {
+        return ResponseEntity.ok(userService.updateUserAccount(id, createUserAccountRequest));
     }
 
     @DeleteMapping("{id}")

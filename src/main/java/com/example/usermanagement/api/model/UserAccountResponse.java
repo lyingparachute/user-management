@@ -12,6 +12,7 @@ public record UserAccountResponse(
     String email,
     Gender gender,
     int age,
+    boolean active,
     Instant createdAt
 ) {
 }

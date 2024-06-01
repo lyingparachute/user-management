@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record UserAccountRequest(
+public record CreateUserAccountRequest(
     @ValidUsername
     String username,
 

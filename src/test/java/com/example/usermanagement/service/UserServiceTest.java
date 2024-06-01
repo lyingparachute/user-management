@@ -1,7 +1,6 @@
 package com.example.usermanagement.service;
 
-import com.example.usermanagement.api.model.UserAccountRequest;
-import com.example.usermanagement.api.model.UserAccountResponse;
+import com.example.usermanagement.api.model.CreateUserAccountRequest;
 import com.example.usermanagement.exception.UsernameExistsException;
 import com.example.usermanagement.model.UserAccount;
 import com.example.usermanagement.model.UserAccountRepository;
@@ -87,7 +86,7 @@ class UserServiceTest {
             final var user = InitData.createUser();
             final var id = user.getId();
             final var username = user.getUserDetails().username();
-            final var userRequest = UserAccountRequest.builder()
+            final var userRequest = CreateUserAccountRequest.builder()
                 .username(username)
                 .email(user.getUserDetails().email())
                 .age(user.getUserDetails().age())
@@ -117,7 +116,7 @@ class UserServiceTest {
             // Given
             final var user = InitData.createUser();
             final var username = user.getUserDetails().username();
-            final var userRequest = UserAccountRequest.builder()
+            final var userRequest = CreateUserAccountRequest.builder()
                 .username(username)
                 .email(user.getUserDetails().email())
                 .age(user.getUserDetails().age())
@@ -145,7 +144,7 @@ class UserServiceTest {
             // Given
             final var user = InitData.createUser();
             final var id = user.getId();
-            final var userRequest = UserAccountRequest.builder()
+            final var userRequest = CreateUserAccountRequest.builder()
                 .username("username")
                 .age(11)
                 .build();
@@ -169,7 +168,7 @@ class UserServiceTest {
         void throwsIllegalArgumentException_whenUserDoesNotExist() {
             // Given
             final var id = 10L;
-            final var userRequest = UserAccountRequest.builder().build();
+            final var userRequest = CreateUserAccountRequest.builder().build();
             given(repository.findById(id)).willReturn(Optional.empty());
 
             // When, Then
@@ -194,6 +193,7 @@ class UserServiceTest {
             underTest.removeUserAccount(id);
 
             // Then
+            verify(verificationService).removeAllVerificationTokensForUser(id);
             verify(repository).deleteById(id);
         }
     }

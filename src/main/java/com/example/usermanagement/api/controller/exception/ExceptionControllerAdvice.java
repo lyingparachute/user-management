@@ -25,8 +25,14 @@ public class ExceptionControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = {IllegalArgumentException.class, UsernameExistsException.class})
+    @ExceptionHandler(value = UsernameExistsException.class)
     public ResponseEntity<String> handleImproperRequestType(RuntimeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<String> handleNotFoundRequestType(RuntimeException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

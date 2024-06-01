@@ -14,6 +14,7 @@ public class UserMapper {
             .email(user.getUserDetails().email())
             .gender(user.getUserDetails().gender())
             .age(user.getUserDetails().age())
+            .active(user.isActivated())
             .createdAt(user.getCreatedAt())
             .build();
     }

@@ -58,6 +58,11 @@ public class VerificationService {
             .forEach(VerificationToken::setRevoked);
     }
 
+    public void removeAllVerificationTokensForUser(final Long id) {
+        tokenRepository.findAllValidTokenByUserId(id)
+            .forEach(revokedToken -> tokenRepository.deleteById(revokedToken.getId()));
+    }
+
     @Transactional
     protected void revokeVerificationToken(final String token) {
         final var verificationToken = getVerificationToken(token);

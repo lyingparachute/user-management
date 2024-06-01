@@ -1,6 +1,6 @@
 package com.example.usermanagement.service;
 
-import com.example.usermanagement.api.model.UserAccountRequest;
+import com.example.usermanagement.api.model.CreateUserAccountRequest;
 import com.example.usermanagement.api.model.UserAccountResponse;
 import com.example.usermanagement.exception.UsernameExistsException;
 import com.example.usermanagement.model.UserAccount;
@@ -25,7 +25,7 @@ public class UserService {
         return UserMapper.toResponse(userAccount);
     }
 
-    public UserAccountResponse createUserAccount(final UserAccountRequest request,
+    public UserAccountResponse createUserAccount(final CreateUserAccountRequest request,
                                                  final HttpServletRequest httpServletRequest) {
         validateUsername(request.username());
         final var saved = userAccountRepository.save(
@@ -44,7 +44,7 @@ public class UserService {
         return UserMapper.toResponse(saved);
     }
 
-    public UserAccountResponse updateUserAccount(final Long userId, final UserAccountRequest request) {
+    public UserAccountResponse updateUserAccount(final Long userId, final CreateUserAccountRequest request) {
         final var userAccount = findById(userId);
         userAccount.setUserDetails(
             UserDetails.builder()
@@ -68,6 +68,7 @@ public class UserService {
     }
 
     public void removeUserAccount(final Long id) {
+        verificationService.removeAllVerificationTokensForUser(id);
         userAccountRepository.deleteById(id);
     }
 }
