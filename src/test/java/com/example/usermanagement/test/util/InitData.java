@@ -8,7 +8,7 @@ import com.example.usermanagement.model.UserDetails;
 import java.time.Instant;
 
 public class InitData {
-    public UserAccount createUser() {
+    public static UserAccount createUser() {
         return UserAccount.builder()
             .id(1L)
             .userDetails(
@@ -24,7 +24,7 @@ public class InitData {
             .build();
     }
 
-    public UserAccount createUnverifiedUser() {
+    public static UserAccount createUnverifiedUser() {
         return UserAccount.builder()
             .id(1L)
             .userDetails(

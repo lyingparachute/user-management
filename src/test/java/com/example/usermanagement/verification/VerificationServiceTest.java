@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 class VerificationServiceTest {
 
     @InjectMocks
-    VerificationService service;
+    VerificationService underTest;
     @Mock
     MailSenderService mailService;
     @Mock
@@ -58,7 +58,7 @@ class VerificationServiceTest {
             // When
             when(tokenRepository.save(any(VerificationToken.class))).thenReturn(verificationToken);
 
-            service.sendAccountVerificationEmail(servletRequest, user);
+            underTest.sendAccountVerificationEmail(servletRequest, user);
 
             // Then
             then(tokenRepository).should().save(any(VerificationToken.class));
@@ -78,7 +78,7 @@ class VerificationServiceTest {
             final var user = initData.createUser();
 
             // When, Then
-            assertThatThrownBy(() -> service.sendAccountVerificationEmail(servletRequest, user))
+            assertThatThrownBy(() -> underTest.sendAccountVerificationEmail(servletRequest, user))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Account with email '" + user.getUserDetails().email() + "' is already verified.");
         }
@@ -95,7 +95,7 @@ class VerificationServiceTest {
 
             // When
             when(tokenRepository.findByToken(token)).thenReturn(Optional.of(verificationToken));
-            service.validateVerificationToken(token);
+            underTest.validateVerificationToken(token);
 
             // Then
             then(tokenRepository).should().findByToken(token);
@@ -111,7 +111,7 @@ class VerificationServiceTest {
 
             // When, Then
             when(tokenRepository.findByToken(token)).thenReturn(Optional.of(verificationToken));
-            assertThatThrownBy(() -> service.validateVerificationToken(token))
+            assertThatThrownBy(() -> underTest.validateVerificationToken(token))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Verification Token expired or revoked: " + token);
         }
@@ -126,7 +126,7 @@ class VerificationServiceTest {
             given(tokenRepository.findByToken(token)).willReturn(Optional.of(verificationToken));
 
             // When, Then
-            assertThatThrownBy(() -> service.validateVerificationToken(token))
+            assertThatThrownBy(() -> underTest.validateVerificationToken(token))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Verification Token expired or revoked: " + token);
         }
@@ -138,7 +138,7 @@ class VerificationServiceTest {
 
             // When, Then
             when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
-            assertThatThrownBy(() -> service.validateVerificationToken(token))
+            assertThatThrownBy(() -> underTest.validateVerificationToken(token))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Invalid Verification Token: " + token);
 
@@ -156,7 +156,7 @@ class VerificationServiceTest {
 
             // When
             when(tokenRepository.findByToken(token)).thenReturn(Optional.of(verificationToken));
-            service.verifyAccount(token);
+            underTest.verifyAccount(token);
 
             // Then
             then(tokenRepository).should(times(2)).findByToken(token);
@@ -170,7 +170,7 @@ class VerificationServiceTest {
 
             // When, Then
             when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
-            assertThatThrownBy(() -> service.validateVerificationToken(token))
+            assertThatThrownBy(() -> underTest.validateVerificationToken(token))
                 .isExactlyInstanceOf(RuntimeException.class)
                 .hasMessage("Invalid Verification Token: " + token);
         }
