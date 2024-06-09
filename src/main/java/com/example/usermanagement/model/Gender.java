@@ -8,7 +8,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public enum Gender {
     MALE("male"),
-    FEMALE("male");
+    FEMALE("female");
 
     private final String value;
 
